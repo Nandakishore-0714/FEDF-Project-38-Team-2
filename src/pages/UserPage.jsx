@@ -23,16 +23,42 @@ export default function UserPage() {
     if (!currentUser) navigate("/");
   }, [navigate]);
 
-  // ✅ Register for Webinar
+  // ✅ Register for Webinar + Save Student Name
   const handleRegister = (id) => {
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+    if (!currentUser) {
+      alert("Please login first!");
+      navigate("/login");
+      return;
+    }
+
+    // Prevent duplicate registration
     if (registered.includes(id)) {
       alert("You have already registered for this webinar!");
       return;
     }
 
+    // Save for USER (existing logic)
     const updated = [...registered, id];
     setRegistered(updated);
     localStorage.setItem("registrations", JSON.stringify(updated));
+
+    // ⭐ New: Save Student Registration Details for Admin
+    const allRegUsers =
+      JSON.parse(localStorage.getItem("webinarRegisteredUsers")) || [];
+
+    allRegUsers.push({
+      webinarId: id,
+      username: currentUser.username,
+      time: new Date().toLocaleString(),
+    });
+
+    localStorage.setItem(
+      "webinarRegisteredUsers",
+      JSON.stringify(allRegUsers)
+    );
+
     alert("Successfully registered!");
   };
 
@@ -64,7 +90,11 @@ export default function UserPage() {
               <p>{webinar.description}</p>
               {webinar.link && (
                 <p>
-                  <a href={webinar.link} target="_blank" rel="noopener noreferrer">
+                  <a
+                    href={webinar.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     Join Link
                   </a>
                 </p>

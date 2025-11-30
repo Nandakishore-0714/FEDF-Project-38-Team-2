@@ -6,6 +6,7 @@ import './App.css';
 import HomePage from './pages/HomePage';
 import Admin from './pages/Admin';
 import UserPage from './pages/UserPage';
+
 function App() {
   return (
     <BrowserRouter>

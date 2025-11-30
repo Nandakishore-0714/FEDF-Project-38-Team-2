@@ -183,6 +183,34 @@ function AdminDashboard() {
             </ul>
           </div>
         </section>
+
+        {/* Registered Students */}
+        <section className="webinars">
+          <h2>Registered Students</h2>
+
+          <table className="data-table">
+            <thead>
+              <tr>
+                <th>Webinar</th>
+                <th>Student Username</th>
+                <th>Registered At</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {(JSON.parse(localStorage.getItem("webinarRegisteredUsers")) || []).map(
+                (entry, index) => (
+                  <tr key={index}>
+                    <td>{entry.webinarTitle}</td>
+                    <td>{entry.username}</td>
+                    <td>{entry.time}</td>
+                  </tr>
+                )
+              )}
+            </tbody>
+          </table>
+        </section>
+
       </div>
     </div>
   );
